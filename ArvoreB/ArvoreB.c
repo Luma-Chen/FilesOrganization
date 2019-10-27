@@ -243,13 +243,13 @@ int main (int argc, char** argv)
     {
     	fprintf (stderr, "\nArquivo não pode ser aberto para leitura");
         return 1;
-	}
-	while (fread (&e, sizeof (Endereco), 1, f))
-	{
-		ArvoreB_Insere (a, e.cep, posicao); 
-        posicao= ftell (f);
-	}
-	ArvoreB_PrintDebug (a);
+    }
+    while (fread (&e, sizeof (Endereco), 1, f))
+    {
+	ArvoreB_Insere (a, e.cep, posicao); 
+	posicao= ftell (f);
+    }
+    ArvoreB_PrintDebug (a);
     ArvoreB_Fecha (a);
     fclose (f);
     return 0;
