@@ -230,6 +230,7 @@ void ArvoreB_PrintDebug (ArvoreB* arvore)
         posicaoPagina= ftell (arvore -> f);
     }
 }
+
 int main (int argc, char** argv)
 {
     ArvoreB* a= ArvoreB_Abre ("arvore.dat");
