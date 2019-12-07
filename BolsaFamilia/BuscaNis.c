@@ -282,15 +282,15 @@ int main (int argc, char** argv)
     if (argc != 2)
     {
         fprintf (stderr, "\nErro na chamada do comando");
-	fprintf (stderr, "Uso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO].\n", argv[0]);
+	fprintf (stderr, "\nUso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO]", argv[0]);
         return 1;
     }
     sprintf (nis, "%s", argv[1]);
     posicao= ArvoreB_Busca (a, nis);
-  	if (posicao > -1)
-  	{
-  		 while (!feof (f))
-   		{
+    if (posicao > -1)
+    {
+  	  while (!feof (f))
+   	  {
         	coluna= 0;
         	campo= strtok (linha, "\t");
        		while (campo)
@@ -313,7 +313,7 @@ int main (int argc, char** argv)
         	}
     	}
     }
-	else
+    else
         printf ("\nNis nao encontrado"); 
     ArvoreB_Fecha (a);
     fclose (f);
