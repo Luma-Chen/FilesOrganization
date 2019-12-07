@@ -47,7 +47,7 @@ ArvoreB* ArvoreB_Abre (const char* nomeArquivo)
         f= fopen (nomeArquivo, "w");
         if (!f)
         {
-            fprintf (stderr, "Arquivo %s não pode ser criado\n", nomeArquivo);
+            fprintf (stderr, "Arquivo %s nÃ£o pode ser criado\n", nomeArquivo);
             return resp;
         }
         cabecalho= (ArvoreB_Cabecalho*) malloc (sizeof (ArvoreB_Cabecalho));
@@ -91,10 +91,10 @@ ArvoreB_Elemento* ArvoreB_Split (ArvoreB *arvore, long posicaoPagina, ArvoreB_Pa
     ArvoreB_Elemento aux;
     ArvoreB_Elemento* resp;
     ArvoreB_Pagina* paginaSplit;
-    //O elemento na área de overflow é menor que o ultimo elemento da página?
+    //O elemento na Ã¡rea de overflow Ã© menor que o ultimo elemento da pÃ¡gina?
     if (ArvoreB_Compara (overflow,&pagina -> elementos[pagina -> quantidadeElementos - 1]) < 0)
     {
-        //Trocar o último com o elemento no overflow e reordenar a página
+        //Trocar o Ãºltimo com o elemento no overflow e reordenar a pÃ¡gina
         aux= *overflow;
         *overflow= pagina -> elementos[pagina -> quantidadeElementos - 1];
         pagina -> elementos[pagina -> quantidadeElementos - 1]= aux;
@@ -128,7 +128,7 @@ ArvoreB_Elemento* ArvoreB_Insere_Recursiva (ArvoreB* arvore, long posicaoPagina,
     ArvoreB_Elemento* resp= (ArvoreB_Elemento*) 0;
     ArvoreB_Elemento *elementoSplit= (ArvoreB_Elemento*) 0;
     ArvoreB_Elemento overflow;
-    //printf("Inserindo %.8s na página %ld\n", chave, posicaoPagina);
+    //printf("Inserindo %.8s na pÃ¡gina %ld\n", chave, posicaoPagina);
     ArvoreB_Pagina *pagina= ArvoreB_alocaPagina ();
     fseek (arvore -> f, posicaoPagina, SEEK_SET);
     fread (pagina, sizeof (ArvoreB_Pagina), 1, arvore -> f);
@@ -151,7 +151,7 @@ ArvoreB_Elemento* ArvoreB_Insere_Recursiva (ArvoreB* arvore, long posicaoPagina,
             resp= ArvoreB_Split (arvore, posicaoPagina, pagina, &overflow);
         }
     }
-    else //Não é folha
+    else //NÃ£o Ã© folha
     {
         posicaoPaginaFilho= pagina -> paginaEsquerda;
         for (i= 0; i< pagina-> quantidadeElementos; i++)
@@ -281,7 +281,8 @@ int main (int argc, char** argv)
     fgets (linha, 2048, f);
     if (argc != 2)
     {
-        fprintf (stderr, "\nErro na chamada do comando",  argv[0]);
+        fprintf (stderr, "\nErro na chamada do comando");
+	fprintf (stderr, "Uso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO].\n", argv[0]);
         return 1;
     }
     sprintf (nis, "%s", argv[1]);
@@ -308,7 +309,7 @@ int main (int argc, char** argv)
         	n++;
         	if (n == 10)
         	{
-            	break;
+            		break;
         	}
     	}
     }
