@@ -221,45 +221,37 @@ void ArvoreB_PrintDebug (ArvoreB* arvore)
 
 int main (int argc, char** argv)
 {
-    ArvoreB* a= ArvoreB_Abre ("arvore.dat");
-    FILE *f= fopen ("bolsa.csv", "r");
+    ArvoreB* arvore= ArvoreB_Abre ("arvore.dat");
     char linha[2048];
     char nis[15];
-    int n;
-	n= 0;
-    int coluna;
-	coluna= 0;
-    long posicao;
+    int numLinha= 0;
+    int numColuna= 0;
+    long posicaoArq;
     char* campo;
-    fgets (linha, 2048, f);
-    posicao= ftell (f);
-    fgets (linha, 2048, f);
-    while (!feof (f))
+    FILE *file= fopen ("bolsa.csv", "r");
+    fgets (linha, 2048, file); 
+    posicaoArq= ftell (file); 
+    fgets (linha, 2048, file); 
+    while (!feof (file)) 
     {
-        coluna= 0;
+        numColuna= 0;
         campo= strtok (linha, "\t");
-        while (campo)
+        while (campo != NULL)
         {
-            if (coluna == 7)
+            if (numColuna == 7)
             {
                 strcpy (nis, campo);
-                printf ("NIS => %s esta em %ld\n", nis, posicao);
-                ArvoreB_Insere (a, nis, posicao);
+                ArvoreB_Insere (arvore, nis, posicaoArq); 
+                printf ("NIS => %s esta em %ld\n", nis, posicaoArq);
             }
-            coluna++;
-            campo= strtok (NULL, "\t");
+            numColuna++; 
+            campo= strtok (NULL, "\t"); 
         }
-        printf ("------------------------------------\n");
-        posicao= ftell (f);
-        fgets (linha, 2048, f);
-        n++;
-        if (n == 10)
-        {
-            break;
-        }
+        fgets (linha, 2048, file); 
+        posicaoArq= ftell (file); 
     }
-    fclose (f);
-	ArvoreB_PrintDebug (a);
-    ArvoreB_Fecha (a);
+    fclose (file);
+    ArvoreB_PrintDebug (arvore);
+    ArvoreB_Fecha (arvore);
     return 0;
 }
