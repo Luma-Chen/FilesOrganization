@@ -2,18 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ArvoreB.h"
- 
-struct Tendereco
-{
-    char logradouro[72];
-    char bairro[72];
-    char cidade[72];
-    char uf[72];
-    char sigla[2];
-    char cep[8];
-    char lixo[2];
-};
-typedef struct Tendereco Endereco;
 
 ArvoreB_Pagina* ArvoreB_alocaPagina ()
 {
