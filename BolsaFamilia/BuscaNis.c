@@ -2,18 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ArvoreB.h"
- 
-struct Tendereco
-{
-    char logradouro[72];
-    char bairro[72];
-    char cidade[72];
-    char uf[72];
-    char sigla[2];
-    char cep[8];
-    char lixo[2];
-};
-typedef struct Tendereco Endereco;
 
 ArvoreB_Pagina* ArvoreB_alocaPagina ()
 {
@@ -267,51 +255,30 @@ void ArvoreB_PrintDebug (ArvoreB* arvore)
 int main (int argc, char** argv)
 {
     ArvoreB* a= ArvoreB_Abre ("arvore.dat");
-   	FILE *f= fopen ("bolsa.csv", "r");
+    FILE *f= fopen ("bolsa.csv", "r");
     char linha[2048];
     char nis[15];
-    int n;
-	n= 0;
-    int coluna;
-	coluna= 0;
     long posicao;
-    char* campo;
-    fgets (linha, 2048, f);
-    posicao= ftell (f);
-    fgets (linha, 2048, f);
+    char *campo;
     if (argc != 2)
     {
         fprintf (stderr, "\nErro na chamada do comando");
-	fprintf (stderr, "\nUso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO]", argv[0]);
+        fprintf (stderr, "\nUso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO]", argv[0]);
         return 1;
     }
     sprintf (nis, "%s", argv[1]);
     posicao= ArvoreB_Busca (a, nis);
     if (posicao > -1)
     {
-  	  while (!feof (f))
-   	  {
-        	coluna= 0;
-        	campo= strtok (linha, "\t");
-       		while (campo)
-        	{
-            	if (coluna == 7)
-            	{
-                	strcpy (nis, campo);
-                	printf ("NIS => %s esta em %ld\n", nis, posicao);
-            	}
-            	coluna++;
-            	campo= strtok (NULL, "\t");
-        	}
-        	printf ("------------------------------------\n");
-        	posicao= ftell (f);
-        	fgets (linha, 2048, f);
-        	n++;
-        	if (n == 10)
-        	{
-            		break;
-        	}
-    	}
+  	fseek (f, posicao, SEEK_SET); 
+        fgets (linha, 2048, f); 
+       	campo= strtok (linha, "\t");
+	while (campo)
+	{
+	    printf ("\nO Campo é: %s", campo);
+	    printf ("NIS => %s esta em %ld\n", nis, posicao);
+	    campo= strtok (NULL, "\t");
+	}
     }
     else
         printf ("\nNis nao encontrado"); 
