@@ -232,25 +232,37 @@ void ArvoreB_PrintDebug (ArvoreB* arvore)
 }
 int main (int argc, char** argv)
 {
-    ArvoreB* a= ArvoreB_Abre ("arvore.dat");
-    FILE *f;
-    Endereco e;
-    char chave[8];
-    int posicao;
-    f= fopen ("cep.dat", "r");
-    posicao= ftell (f);
-    if (!f)
+    ArvoreB* arvore= ArvoreB_Abre ("arvore.dat");
+    char linha[2048];
+    char nis[15];
+    int numLinha= 0;
+    int numColuna= 0;
+    long posicaoArq;
+    char* campo;
+    FILE *file= fopen ("bolsa.csv", "r");
+    fgets (linha, 2048, file); 
+    posicaoArq= ftell (file); 
+    fgets (linha, 2048, file); 
+    while (!feof (file)) 
     {
-    	fprintf (stderr, "\nArquivo não pode ser aberto para leitura");
-        return 1;
+        numColuna= 0;
+        campo= strtok (linha, "\t");
+        while (campo != NULL)
+        {
+            if (numColuna == 7)
+            {
+                strcpy (nis, campo);
+                ArvoreB_Insere (arvore, nis, posicaoArq); 
+                printf ("NIS => %s esta em %ld\n", nis, posicaoArq);
+            }
+            numColuna++; 
+            campo= strtok (NULL, "\t"); 
+        }
+        fgets (linha, 2048, file); 
+        posicaoArq= ftell (file); 
     }
-    while (fread (&e, sizeof (Endereco), 1, f))
-    {
-	ArvoreB_Insere (a, e.cep, posicao); 
-	posicao= ftell (f);
-    }
-    ArvoreB_PrintDebug (a);
-    ArvoreB_Fecha (a);
-    fclose (f);
+    fclose (file);
+    ArvoreB_PrintDebug (arvore);
+    ArvoreB_Fecha (arvore);
     return 0;
 }
