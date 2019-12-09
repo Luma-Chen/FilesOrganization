@@ -258,8 +258,6 @@ int main (int argc, char** argv)
     FILE *file= fopen ("bolsa.csv", "r");
     char linha[2048];
     char nis[15]; 
-    int numLinha= 0;
-    int numColuna= 0;
     long posicaoArq;
     char *campo;
     if (argc != 2)
