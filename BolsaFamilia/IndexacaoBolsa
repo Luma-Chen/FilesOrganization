@@ -224,7 +224,7 @@ int main (int argc, char** argv)
     ArvoreB* arvore= ArvoreB_Abre ("arvore.dat");
     char linha[2048];
     char nis[15];
-    int numLinha= 0, numColuna= 0;
+    int numColuna= 0;
     long posicaoArq;
     char* campo;
     FILE *file= fopen ("bolsa.csv", "r");
