@@ -254,35 +254,45 @@ void ArvoreB_PrintDebug (ArvoreB* arvore)
 
 int main (int argc, char** argv)
 {
-    ArvoreB* a= ArvoreB_Abre ("arvore.dat");
-    FILE *f= fopen ("bolsa.csv", "r");
+    ArvoreB* arvore= ArvoreB_Abre ("arvore.dat");
+    FILE *file= fopen ("bolsa.csv", "r");
     char linha[2048];
-    char nis[15];
-    long posicao;
+    char nis[15]; 
+    int numLinha= 0;
+    int numColuna= 0;
+    long posicaoArq;
     char *campo;
     if (argc != 2)
     {
-        fprintf (stderr, "\nErro na chamada do comando");
-        fprintf (stderr, "\nUso: %s [ARQUIVO ORIGEM] [ARQUIVO DESTINO]", argv[0]);
+        fprintf (stderr, "Erro na passagem de parametro por comando de linha", argv[0]);
         return 1;
     }
-    sprintf (nis, "%s", argv[1]);
-    posicao= ArvoreB_Busca (a, nis);
-    if (posicao > -1)
+    sprintf (nis, "%s", argv[1]); 
+    posicaoArq= ArvoreB_Busca (arvore, nis); 
+    if (posicaoArq > -1)
     {
-  	fseek (f, posicao, SEEK_SET); 
-        fgets (linha, 2048, f); 
-       	campo= strtok (linha, "\t");
-	while (campo)
-	{
-	    printf ("\nO Campo é: %s", campo);
-	    printf ("NIS => %s esta em %ld\n", nis, posicao);
-	    campo= strtok (NULL, "\t");
-	}
+        fseek (file, posicaoArq, SEEK_SET); 
+        fgets (linha, 2048, file); 
+        campo= strtok (linha, "\t"); 
+        while (campo != NULL) 
+        {
+            if (strncmp (campo, nis, 15) == 0)
+            {
+                printf ("Nis => %s esta na posicao %ld\n", nis, posicaoArq);
+                fseek (file, posicaoArq, SEEK_SET);
+                fprintf (stdout, "Dados completos: \n%s\n", fgets (linha, 2048, file));
+                break;
+            }
+            else
+            	campo= strtok (NULL, "\t");
+            
+        }
     }
     else
-        printf ("\nNis nao encontrado"); 
-    ArvoreB_Fecha (a);
-    fclose (f);
+    {
+        printf ("\nNis não encontrado.");
+    }
+    fclose (file);
+    ArvoreB_Fecha (arvore);
     return 0;
 }
