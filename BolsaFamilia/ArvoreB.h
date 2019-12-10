@@ -1,6 +1,6 @@
 #ifndef __ARVORE_B__
 #define __ARVORE_B__
-#define TAM_CHAVE 15
+#define TAM_CHAVE 12
 #define TAM_PAG 300
 #include <stdio.h>
 
